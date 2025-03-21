@@ -19,9 +19,9 @@ New-NetIPAddress -InterfaceAlias "Ethernet" -IPAddress 192.168.xxx.xxx -PrefixLe
 ```
 Install-ADDSForest -DomainName "YourDomain.dm" -InstallDns -Force
  
-Add-DhcpServerInDC -DnsName "Domain.dm" -IPAddress 192.168.xxx.xxx
+Add-DhcpServerInDC -DnsName "YourDomain.dm" -IPAddress 192.168.xxx.xxx
  
-Add-DhcpServerv4Scope -Name "KontorLAN" -StartRange 192.168.xxx.xxx -EndRange 192.168.xxx.xxx -SubnetMask 255.255.255.0 -State Active
+Add-DhcpServerv4Scope -Name "DittScopeNavn" -StartRange 192.168.xxx.xxx -EndRange 192.168.xxx.xxx -SubnetMask 255.255.255.0 -State Active
  
 Restart-Service dhcpserver
  
@@ -30,15 +30,15 @@ Get-DhcpServerv4Scope
 # Sette opp ett OU med brukere
 
 ```
-New-ADOrganizationalUnit -Name "IT Department" -Path "DC=yourdomain,DC=com"
+New-ADOrganizationalUnit -Name "IT Department" -Path "DC=yourdomain,DC=dm"
  
-Redircmp "OU=IT Department,DC=drift,DC=dm"
+Redircmp "OU=IT Department,DC=yourdomain,DC=dm"
  
 Get-ADOrganizationalUnit -Filter * | Select Name, DistinguishedName
  
-Redirusr "OU=IT Department,DC=drift,DC=dm"
+Redirusr "OU=IT Department,DC=yourdomain,DC=dm"
  
-New-ADUser -Name "Test User" -SamAccountName "test.user" -UserPrincipalName "test.user@drift.dm" `
+New-ADUser -Name "Test User" -SamAccountName "test.user" -UserPrincipalName "test.user@yourdomain.dm" `
 -AccountPassword (ConvertTo-SecureString "P@ssw0rd!" -AsPlainText -Force) -Enabled $true
 
 Get-ADUser -Identity "test.user" | Select DistinguishedName
