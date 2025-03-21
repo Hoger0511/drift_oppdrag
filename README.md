@@ -46,6 +46,7 @@ Get-ADUser -Identity "test.user" | Select DistinguishedName
 
 # Legge til mange brukere via Powershell og CSV fil
 
+```
 Definer stien til CSV-filen
 $csvPath = "C:\Users\Administrator\Documents\xxx.csv"
  
@@ -61,14 +62,14 @@ foreach ($user in $users) {
     $ou = $user.OU
     
     Opprett brukerkontoen
-    New-ADUser -GivenName $firstName `
-               -Surname $lastName `
-               -Name "$firstName $lastName" `
-               -SamAccountName $userName `
-               -UserPrincipalname "$userName@example.com" `
-               -AccountPassword (ConvertTo-SecureString $password -AsPlainText -Force) `
-               -Path $ou `
-               -Enabled $true `
+    New-ADUser -GivenName $firstName 
+               -Surname $lastName 
+               -Name "$firstName $lastName" 
+               -SamAccountName $userName 
+               -UserPrincipalname "$userName@example.com" 
+               -AccountPassword (ConvertTo-SecureString $password -AsPlainText -Force) 
+               -Path $ou 
+               -Enabled $true 
                -PassThru
 
 ```
