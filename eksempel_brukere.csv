@@ -1,0 +1,9 @@
+Name,GivenName,Surname,DisplayName,SAMAccountName,Description,FirstName,LastName,UserName,Password,OU,UserPrincipalName
+David Guy,David,Guy,Dave R. Guy,Dave,Customer Appreciation Manager,David,Guy,Dave,TempPass!2025,"OU=Users,DC=example,DC=com",Dave@example.com
+Alfredo Fettucine,Alfredo,Fettuccine,Alfie NoNose,Alfie,Shop Foreman,Alfredo,Fettuccine,Alfie,TempPass!2025,"OU=Users,DC=example,DC=com",Alfie@example.com
+Stanley Behr,Stanley,Behr,Stanley T. Behr,Stanley,Webmaster,Stanley,Behr,Stanley,TempPass!2025,"OU=Users,DC=example,DC=com",Stanley@example.com
+Priscilla Catz,Priscilla,Catz,Dame Priscilla,Priscilla,Shop Steward,Priscilla,Catz,Priscilla,TempPass!2025,"OU=Users,DC=example,DC=com",Priscilla@example.com
+Harold Catz,Harold,Catz,Harold S. Catz,Harold,Engineering Manager,Harold,Catz,Harold,TempPass!2025,"OU=Users,DC=example,DC=com",Harold@example.com
+William Wallace,William,Wallace,Sir William Wallace,Wally,Marketing Manager,William,Wallace,Wally,TempPass!2025,"OU=Users,DC=example,DC=com",Wally@example.com
+Trey Barksdale,Trey,Barksdale,Lord Barksalot,Trey,Sales Manager,Trey,Barksdale,Trey,TempPass!2025,"OU=Users,DC=example,DC=com",Trey@example.com
+Charlie Russel,Charlie,Russel,Charlie Russel,Charlie,SuperUser Account,Charlie,Russel,Charlie,TempPass!2025,"OU=Users,DC=example,DC=com",Charlie@example.com
