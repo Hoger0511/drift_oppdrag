@@ -20,6 +20,12 @@ Add-DhcpServerv4Scope -Name "NetworkScope" -StartRange 192.168.xxx.100 -EndRange
 Restart-Service dhcpserver
 ```
 
+## Sett up Vlan and Virtual switch
+```powershell
+# Hyper-V
+New-VMSwitch -Name "VLAN10Switch" -NetAdapterName "Ethernet" -AllowManagementOS $true
+
+```
 ## Organizational Unit Management
 ```powershell
 # Create OU structure
