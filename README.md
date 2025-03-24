@@ -68,11 +68,12 @@ Jane,Smith,jane.smith,Passw0rd!,"OU=IT Department,DC=yourdomain,DC=dm"
 New-ADUser -Name "Test User" -SamAccountName "test.user" -UserPrincipalName "test.user@yourdomain.dm" `
   -AccountPassword (ConvertTo-SecureString "P@ssw0rd!" -AsPlainText -Force) -Enabled $true
 ```
-## 
+## Interactive Scripts: Working with User Input in PowerShell
 ```
-$firstname = Read-Host "Enter your name"
-$surname = Read-Host "Enter your Surname"
-Write-Host "hey, $firstname $surname."
+# Get user input
+    $firstName = Read-Host "Enter user's first name"
+    $lastName = Read-Host "Enter user's last name"
+    $password = Read-Host "Enter temporary password" -AsSecureString
 ```
 ⚠️ **Important Notes:**
 - Replace all placeholders (`xxx`, `yourdomain.dm`) with actual values
