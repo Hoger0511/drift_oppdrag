@@ -68,7 +68,12 @@ Jane,Smith,jane.smith,Passw0rd!,"OU=IT Department,DC=yourdomain,DC=dm"
 New-ADUser -Name "Test User" -SamAccountName "test.user" -UserPrincipalName "test.user@yourdomain.dm" `
   -AccountPassword (ConvertTo-SecureString "P@ssw0rd!" -AsPlainText -Force) -Enabled $true
 ```
-
+## 
+```
+$firstname = Read-Host "Enter your name"
+$surname = Read-Host "Enter your Surname"
+Write-Host "hey, $firstname $surname."
+```
 ⚠️ **Important Notes:**
 - Replace all placeholders (`xxx`, `yourdomain.dm`) with actual values
 - Maintain consistent domain names in UPNs and OU paths
