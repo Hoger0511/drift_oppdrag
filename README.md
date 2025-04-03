@@ -1,45 +1,51 @@
 # Windows Server Configuration Scripts
+# All values are parameterized with variables
+
+## Configuration Variables ##
+$oldName = "Kristiania"
+$newName = "Oslo"
+$interfaceAlias = "Ethernet"
+$ip = "192.168.1.100"
+$prefixLength = 24
+$defaultgw = "192.168.1.1"
+$domainName = "$DCenhet.$DCroot"  # osloskolen.local
+$newOU = "elever"
+$parentOU = "kuben"
+$csvPath = "C:\Path\to\users.csv"
 
 ## Server Initial Setup & Role Installation
 ```powershell
 # Install core Windows features
-Install-WindowsFeature -Name AD-Domain-Services, DNS, DHCP, Hyper-V -IncludeManagementTools
+Install-WindowsFeature -Name AD-Domain-Services, DNS, DHCP -IncludeManagementTools
 
-# Configure static IP address (replace placeholders)
-New-NetIPAddress -InterfaceAlias "Ethernet" -IPAddress 192.168.xxx.xxx -PrefixLength 24 -DefaultGateway 192.168.xxx.1
+# Configure static IP address
+New-NetIPAddress -InterfaceAlias "$interfaceAlias" -IPAddress $ip -PrefixLength $prefixLength -DefaultGateway $defaultgw
+
+# Rename server
+Rename-Computer -NewName $newName -Force -PassThru | Restart-Computer -Force
 ```
-
 ## Active Directory & DHCP Configuration
 ```powershell
-# Promote server to Domain Controller (WARNING: Triggers reboot!)
-Install-ADDSForest -DomainName "YourDomain.dm" -InstallDns -Force
+# Promote server to Domain Controller
+Install-ADDSForest -DomainName $domainName -InstallDns -Force
 
 # DHCP Server configuration
-Add-DhcpServerInDC -DnsName "YourDomain.dm" -IPAddress 192.168.xxx.xxx
-Add-DhcpServerv4Scope -Name "NetworkScope" -StartRange 192.168.xxx.100 -EndRange 192.168.xxx.200 -SubnetMask 255.255.255.0 -State Active
+Add-DhcpServerInDC -DnsName $domainName -IPAddress $ip
+Add-DhcpServerv4Scope -Name "StudentNetwork" -StartRange 192.168.1.100 -EndRange 192.168.1.200 -SubnetMask 255.255.255.0 -State Active
 Restart-Service dhcpserver
 ```
 
-## Sett up Vlan and Virtual switch
-```powershell
-# Hyper-V
-New-VMSwitch -Name "VLAN10Switch" -NetAdapterName "Ethernet" -AllowManagementOS $true
-
-```
 ## Organizational Unit Management
 ```powershell
 # Create OU structure
-New-ADOrganizationalUnit -Name "IT Department" -Path "DC=yourdomain,DC=dm"
+New-ADOrganizationalUnit -Name "$newOU" -Path "OU=$parentOU,DC=$DCenhet,DC=$DCroot"
 
 # Redirect default containers
-Redircmp "OU=IT Department,DC=yourdomain,DC=dm"
-Redirusr "OU=IT Department,DC=yourdomain,DC=dm"
+Set-ADDomain -Identity $domainName -DefaultUserContainer "OU=$newOU,OU=$parentOU,DC=$DCenhet,DC=$DCroot"
 ```
-
 ## Add Multiple Accounts from CSV
 ```powershell
 # Bulk user import script
-$csvPath = "C:\Path\to\users.csv"
 $users = Import-Csv -Path $csvPath
 
 foreach ($user in $users) {
@@ -47,42 +53,54 @@ foreach ($user in $users) {
                -Surname $user.LastName `
                -Name "$($user.FirstName) $($user.LastName)" `
                -SamAccountName $user.UserName `
-               -UserPrincipalName "$($user.UserName)@yourdomain.dm" `
+               -UserPrincipalName "$($user.UserName)@$domainName" `
                -AccountPassword (ConvertTo-SecureString $user.Password -AsPlainText -Force) `
-               -Path $user.OU `
+               -Path "OU=$newOU,OU=$parentOU,DC=$DCenhet,DC=$DCroot" `
                -Enabled $true `
                -PassThru
 }
 ```
-
-**Required CSV Format** (`users.csv`):
-```csv
-FirstName,LastName,UserName,Password,OU
-John,Doe,john.doe,SecurePass123,"OU=IT Department,DC=yourdomain,DC=dm"
-Jane,Smith,jane.smith,Passw0rd!,"OU=IT Department,DC=yourdomain,DC=dm"
-```
-
 ## Single User Creation
 ```powershell
 # Create individual user
-New-ADUser -Name "Test User" -SamAccountName "test.user" -UserPrincipalName "test.user@yourdomain.dm" `
-  -AccountPassword (ConvertTo-SecureString "P@ssw0rd!" -AsPlainText -Force) -Enabled $true
+New-ADUser -Name "Test User" -SamAccountName "test.user" `
+  -UserPrincipalName "test.user@$domainName" `
+  -AccountPassword (ConvertTo-SecureString "P@ssw0rd!" -AsPlainText -Force) `
+  -Path "OU=$newOU,OU=$parentOU,DC=$DCenhet,DC=$DCroot" `
+  -Enabled $true
 ```
-## Interactive Scripts: Working with User Input in PowerShell
-```
-# Get user input
-    $firstName = Read-Host "Enter user's first name"
-    $lastName = Read-Host "Enter user's last name"
-    $password = Read-Host "Enter temporary password" -AsSecureString
-```
-⚠️ **Important Notes:**
-- Replace all placeholders (`xxx`, `yourdomain.dm`) with actual values
-- Maintain consistent domain names in UPNs and OU paths
-- CSV file must use UTF-8 encoding
-- Passwords must meet domain complexity requirements
+## Interactive User Creation
+```powershell
+$firstName = Read-Host "Enter user's first name"
+$lastName = Read-Host "Enter user's last name"
+$username = Read-Host "Enter username"
+$password = Read-Host "Enter temporary password" -AsSecureString
 
-🔑 **Security Recommendations:**
-- Store CSV files encrypted at rest
-- Delete CSV files after user creation
-- Use certificate-based authentication for automated processes
-- Implement account lockout policies
+New-ADUser -Name "$firstName $lastName" `
+           -GivenName $firstName `
+           -Surname $lastName `
+           -SamAccountName $username `
+           -UserPrincipalName "$username@$domainName" `
+           -AccountPassword $password `
+           -Path "OU=$newOU,OU=$parentOU,DC=$DCenhet,DC=$DCroot" `
+           -Enabled $true
+```
+⚠️ Important Notes:
+
+All DC references use: DC=DCenhet,DC=DCenhet,DC=DCroot
+
+OU structure follows: OU=newOU,OU=newOU,OU=parentOU
+
+Default IP scheme: ip/ip/prefixLength
+
+Domain controller identity: $identitet
+
+🔑 Security Recommendations:
+
+Rotate DHCP scope credentials regularly
+
+Audit OU=$newOU permissions quarterly
+
+Use JEA for AD management tasks
+
+Enable LAPS for local admin passwords
