@@ -3,8 +3,8 @@
 
 ## Configuration Variables 
 ```powershell
-$oldName = "Kristiania"
-$newName = "Oslo"
+$oldName = "Skole"
+$newName = "Kuben"
 $interfaceAlias = "Ethernet"
 $ip = "192.168.1.100"
 $prefixLength = 24
@@ -89,19 +89,11 @@ New-ADUser -Name "$firstName $lastName" `
 ⚠️ Important Notes:
 
 All DC references use: DC=DCenhet,DC=DCenhet,DC=DCroot
-
 OU structure follows: OU=newOU,OU=newOU,OU=parentOU
-
 Default IP scheme: ip/ip/prefixLength
-
 Domain controller identity: $identitet
-
 🔑 Security Recommendations:
-
 Rotate DHCP scope credentials regularly
-
 Audit OU=$newOU permissions quarterly
-
 Use JEA for AD management tasks
-
 Enable LAPS for local admin passwords
