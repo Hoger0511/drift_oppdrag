@@ -1,7 +1,8 @@
 # Windows Server Configuration Scripts
 # All values are parameterized with variables
 
-## Configuration Variables ##
+## Configuration Variables 
+```powershell
 $oldName = "Kristiania"
 $newName = "Oslo"
 $interfaceAlias = "Ethernet"
@@ -12,7 +13,7 @@ $domainName = "$DCenhet.$DCroot"  # osloskolen.local
 $newOU = "elever"
 $parentOU = "kuben"
 $csvPath = "C:\Path\to\users.csv"
-
+```
 ## Server Initial Setup & Role Installation
 ```powershell
 # Install core Windows features
