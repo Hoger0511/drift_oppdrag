@@ -92,7 +92,9 @@ All DC references use: DC=DCenhet,DC=DCenhet,DC=DCroot
 OU structure follows: OU=newOU,OU=newOU,OU=parentOU
 Default IP scheme: ip/ip/prefixLength
 Domain controller identity: $identitet
+
 🔑 Security Recommendations:
+
 Rotate DHCP scope credentials regularly
 Audit OU=$newOU permissions quarterly
 Use JEA for AD management tasks
