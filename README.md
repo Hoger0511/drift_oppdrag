@@ -17,7 +17,7 @@ $csvPath = "C:\Path\to\eksempel_brukere.csv"
 ## Server Initial Setup & Role Installation
 ```powershell
 # Install core Windows features
-Install-WindowsFeature -Name AD-Domain-Services, DNS, DHCP -IncludeManagementTools
+Install-WindowsFeature -Name AD-Domain-Services, DNS, DHCP, Hyper-V, IIS -IncludeManagementTools
 
 # Configure static IP address
 New-NetIPAddress -InterfaceAlias "$interfaceAlias" -IPAddress $ip -PrefixLength $prefixLength -DefaultGateway $defaultgw
