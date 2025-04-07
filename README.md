@@ -118,16 +118,48 @@ DNS og routing: Konfigurer DNS og statiske ruter i OPNsense.
 Dette oppsettet sikrer et robust og sikkert nettverksmiljø med både Windows Server og OPNsense.
 
 ```
-⚠️ Important Notes:
+## 🔔 Important Notes  
+- **Test i isolert miljø:** Alltid test skriptene i et sandbox-miljø før produksjonsbruk  
+- **Passordhåndtering:** Bytt alle standardpassord (spesielt `opnsense`/`installer` i OPNsense)  
+- **IP-konflikter:** Sjekk at DHCP-scope ikke overlapper med statiske IP-adresser  
+- **Versjonsavhengighet:** Skriptene er testet på Windows Server 2022 – andre versjoner kan kreve modifikasjoner  
+- **Backup:** Ta full backup av OPNsense-konfigurasjon og Active Directory før endringer
 
-All DC references use: DC=DCenhet,DC=DCenhet,DC=DCroot
-OU structure follows: OU=newOU,OU=newOU,OU=parentOU
-Default IP scheme: ip/ip/prefixLength
-Domain controller identity: $identitet
+## 🔒 Security Notes  
+**Kritiske sikkerhetstiltak for OPNsense + Windows Server:**  
+1. **Brannmurregler:**  
+   - Tillat **kun** nødvendige porter (f.eks. RDP:3389, DNS:53)  
+   - Blokker ICMP-ping fra WAN-grensesnittet  
+   - Implementer "Default Deny"-policy for innkommende trafikk  
 
-🔑 Security Recommendations:
+2. **Active Directory:**  
+   - Aktiver **LDAP-signering** og **LDAPS**  
+   - Bruk **Least Privilege**-prinsippet for AD-brukere  
+   - Implementer **Account Lockout Policy** mot brute force-angrep
+  
+3. **OPNsense Best Practices:**
 
-Rotate DHCP scope credentials regularly
-Audit OU=$newOU permissions quarterly
-Use JEA for AD management tasks
-Enable LAPS for local admin passwords
+ - Deaktiver ubrukte tjenester
+ - Aktiver Suricata IDS for nettverksovervåking
+ - Blokker private nettverk på WAN-grensesnittet
+   
+4. **Automatiske oppdateringer:**  
+- Konfigurer **Auto-update** for OPNsense (`System → Firmware → Settings`)  
+- Aktiver **Windows Update** for serveren via Group Policy  
+
+5. **Logging og overvåkning:**  
+- Aktiver **Suricata IDS** i OPNsense for nettverkssikkerhet  
+- Konfigurer **Windows Event Log**-overvåkning for AD-endringer
+
+**⚠️ Disclaimer:**  
+Denne konfigurasjonen er kun en utgangsmodell. Administratoren må selv  
+verifisere at oppsettet oppfyller organisasjonens sikkerhetskrav.
+
+## ✅ Produksjonsklar-sjekkliste  
+- [ ] Endret standardpassord for OPNsense og AD-administrator  
+- [ ] Verifisert at brannmurregler ikke tillater uautorisert WAN-tilgang  
+- [ ] Testet DHCP-failover mellom OPNsense og Windows Server  
+- [ ] Konfigurert automatiske sikkerhetsoppdateringer
+
+
+
