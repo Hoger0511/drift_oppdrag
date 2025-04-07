@@ -12,7 +12,7 @@ $defaultgw = "192.168.1.1"
 $domainName = "$DCenhet.$DCroot"  # osloskolen.local
 $newOU = "elever"
 $parentOU = "kuben"
-$csvPath = "C:\Path\to\users.csv"
+$csvPath = "C:\Path\to\eksempel_brukere.csv"
 ```
 ## Server Initial Setup & Role Installation
 ```powershell
