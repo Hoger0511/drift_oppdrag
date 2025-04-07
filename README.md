@@ -86,6 +86,38 @@ New-ADUser -Name "$firstName $lastName" `
            -Path "OU=$newOU,OU=$parentOU,DC=$DCenhet,DC=$DCroot" `
            -Enabled $true
 ```
+
+## OPNsense brannmur-oppsett
+```
+Installasjon
+Last ned OPNsense-installasjonsmediet.
+
+Install på en USB-enhet.
+
+Start fra USB-enheten og fullfør installasjonen.
+
+Grunnleggende konfigurasjon
+Nettverksoppsett: Konfigurer WAN og LAN-grensesnitt.
+
+DHCP-server: Aktiver DHCP på LAN-grensesnittet.
+
+VPN-oppsett: Konfigurer OpenVPN for ekstern tilgang.
+
+Sikkerhet
+Brannmurregler: Tillat utgående trafikk fra LAN, blokkere innkommende trafikk til WAN.
+
+Portviderekobling: Konfigurer NAT-regler for interne tjenester.
+
+Integrasjon mellom Windows Server og OPNsense
+Fysisk tilkobling: Koble OPNsense til samme nettverk som Windows Server.
+
+IP-adressering: Konfigurer statisk IP for Windows Server innenfor LAN-segmentet.
+
+DNS og routing: Konfigurer DNS og statiske ruter i OPNsense.
+
+Dette oppsettet sikrer et robust og sikkert nettverksmiljø med både Windows Server og OPNsense.
+
+```
 ⚠️ Important Notes:
 
 All DC references use: DC=DCenhet,DC=DCenhet,DC=DCroot
