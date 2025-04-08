@@ -33,6 +33,7 @@ Install-ADDSForest -DomainName $domainName -InstallDns -Force
 # DHCP Server configuration
 Add-DhcpServerInDC -DnsName $domainName -IPAddress $ip
 Add-DhcpServerv4Scope -Name "StudentNetwork" -StartRange 192.168.1.100 -EndRange 192.168.1.200 -SubnetMask 255.255.255.0 -State Active
+Set-DhcpServerv4OptionValue -DnsServer 192.168.1.125 -Router 192.168.1.1 -DnsDomain "osloskolen.local"
 Restart-Service dhcpserver
 ```
 
