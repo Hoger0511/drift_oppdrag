@@ -3,11 +3,10 @@
 
 ## Configuration Variables 
 ```powershell
-$oldName = "Skole"
 $newName = "Kuben"
 $interfaceAlias = "Ethernet"
 $ip = "192.168.1.100"
-$prefixLength = 24
+$prefixlength = 24
 $defaultgw = "192.168.1.1"
 $domainName = "$DCenhet.$DCroot"  # osloskolen.local
 $newOU = "elever"
@@ -17,7 +16,7 @@ $csvPath = "C:\Path\to\eksempel_brukere.csv"
 ## Server Initial Setup & Role Installation
 ```powershell
 # Install core Windows features
-Install-WindowsFeature -Name AD-Domain-Services, DNS, DHCP, Hyper-V, IIS -IncludeManagementTools
+Install-WindowsFeature -Name AD-Domain-Services, DNS, DHCP, Hyper-V, IIS -IncludeManagementTools -IncludeAllSubFeatures
 
 # Configure static IP address
 New-NetIPAddress -InterfaceAlias "$interfaceAlias" -IPAddress $ip -PrefixLength $prefixLength -DefaultGateway $defaultgw
@@ -102,12 +101,8 @@ Nettverksoppsett: Konfigurer WAN og LAN-grensesnitt.
 
 DHCP-server: Aktiver DHCP på LAN-grensesnittet.
 
-VPN-oppsett: Konfigurer OpenVPN for ekstern tilgang.
-
 Sikkerhet
 Brannmurregler: Tillat utgående trafikk fra LAN, blokkere innkommende trafikk til WAN.
-
-Portviderekobling: Konfigurer NAT-regler for interne tjenester.
 
 Integrasjon mellom Windows Server og OPNsense
 Fysisk tilkobling: Koble OPNsense til samme nettverk som Windows Server.
@@ -134,14 +129,12 @@ Dette oppsettet sikrer et robust og sikkert nettverksmiljø med både Windows Se
    - Implementer "Default Deny"-policy for innkommende trafikk  
 
 2. **Active Directory:**  
-   - Aktiver **LDAP-signering** og **LDAPS**  
    - Bruk **Least Privilege**-prinsippet for AD-brukere  
    - Implementer **Account Lockout Policy** mot brute force-angrep
   
 3. **OPNsense Best Practices:**
 
  - Deaktiver ubrukte tjenester
- - Aktiver Suricata IDS for nettverksovervåking
  - Blokker private nettverk på WAN-grensesnittet
    
 4. **Automatiske oppdateringer:**  
@@ -149,7 +142,6 @@ Dette oppsettet sikrer et robust og sikkert nettverksmiljø med både Windows Se
 - Aktiver **Windows Update** for serveren via Group Policy  
 
 5. **Logging og overvåkning:**  
-- Aktiver **Suricata IDS** i OPNsense for nettverkssikkerhet  
 - Konfigurer **Windows Event Log**-overvåkning for AD-endringer
 
 **⚠️ Disclaimer:**  
@@ -157,10 +149,10 @@ Denne konfigurasjonen er kun en utgangsmodell. Administratoren må selv
 verifisere at oppsettet oppfyller organisasjonens sikkerhetskrav.
 
 ## ✅ Produksjonsklar-sjekkliste  
-- [ ] Endret standardpassord for OPNsense og AD-administrator  
-- [ ] Verifisert at brannmurregler ikke tillater uautorisert WAN-tilgang  
-- [ ] Testet DHCP-failover mellom OPNsense og Windows Server  
-- [ ] Konfigurert automatiske sikkerhetsoppdateringer
+- [x] Endret standardpassord for OPNsense og AD-administrator  
+- [x] Verifisert at brannmurregler ikke tillater uautorisert WAN-tilgang  
+- [x] Testet DHCP-failover mellom OPNsense og Windows Server  
+- [x] Konfigurert automatiske sikkerhetsoppdateringer
 
 
 
