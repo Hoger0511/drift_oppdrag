@@ -5,9 +5,9 @@
 ```powershell
 $newName = "Kuben"
 $interfaceAlias = "Ethernet"
-$ip = "192.168.1.100"
+$ip = "192.168.17.10"
 $prefixlength = "24"
-$defaultgw = "192.168.1.1"
+$defaultgw = "192.168.17.1"
 $domainName = "osloskolen.local"  # osloskolen.local
 $newOU = "elever"
 $parentOU = "kuben"
