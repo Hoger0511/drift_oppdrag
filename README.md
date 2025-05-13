@@ -39,7 +39,8 @@ Restart-Service dhcpserver
 ## Organizational Unit Management
 ```powershell
 # Create OU structure
-New-ADOrganizationalUnit -Name "$newOU" -Path "OU=$parentOU,DC=$DCenhet,DC=$DCroot"
+ New-ADOrganizationalUnit -Name "$parentOU" -Path "DC=osloskolen,DC=local"
+New-ADOrganizationalUnit -Name "$newOU" -Path "OU=$parentOU,DC=osloskolen,DC=local"
 
 # Redirect default containers
 Set-ADDomain -Identity $domainName -DefaultUserContainer "OU=$newOU,OU=$parentOU,DC=$DCenhet,DC=$DCroot"
