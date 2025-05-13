@@ -6,7 +6,7 @@
 $newName = "Kuben"
 $interfaceAlias = "Ethernet"
 $ip = "192.168.1.100"
-$prefixlength = 24
+$prefixlength = "24"
 $defaultgw = "192.168.1.1"
 $domainName = "osloskolen.local"  # osloskolen.local
 $newOU = "elever"
