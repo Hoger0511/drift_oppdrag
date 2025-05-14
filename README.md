@@ -118,6 +118,8 @@ DNS og routing: Konfigurer DNS og statiske ruter i OPNsense.
 Dette oppsettet sikrer et robust og sikkert nettverksmiljø med både Windows Server og OPNsense.
 
 ```
+<img src='https://i.imgur.com/rSIt9Gx.png'>
+
 ## 🔔 Important Notes  
 - **Test i isolert miljø:** Alltid test skriptene i et sandbox-miljø før produksjonsbruk  
 - **Passordhåndtering:** Bytt alle standardpassord (spesielt `opnsense`/`installer` i OPNsense)  
