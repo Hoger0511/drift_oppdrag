@@ -87,7 +87,7 @@ New-ADUser -Name "$firstName $lastName" `
            -SamAccountName $username `
            -UserPrincipalName "$username@$domainName" `
            -AccountPassword $password `
-           -Path "OU=$newOU,OU=$parentOU,DC=$DCenhet,DC=$DCroot" `
+           -Path "OU=kuben,OU=elever,DC=osloskolen,DC=local" `
            -Enabled $true
 ```
 
