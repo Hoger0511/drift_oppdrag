@@ -1,6 +1,8 @@
 # Windows Server Configuration Scripts
 # All values are parameterized with variables
 
+<img src='https://imgur.com/a/L2zeai7'>
+
 ## Configuration Variables 
 ```powershell
 $newName = "Kuben"
@@ -154,6 +156,3 @@ verifisere at oppsettet oppfyller organisasjonens sikkerhetskrav.
 - [x] Verifisert at brannmurregler ikke tillater uautorisert WAN-tilgang  
 - [x] Testet DHCP-failover mellom OPNsense og Windows Server  
 - [x] Konfigurert automatiske sikkerhetsoppdateringer
-
-
-
