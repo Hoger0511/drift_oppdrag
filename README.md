@@ -1,7 +1,6 @@
 # Windows Server Configuration Scripts
 # All values are parameterized with variables
 
-<img src='https://imgur.com/a/L2zeai7'>
 
 ## Configuration Variables 
 ```powershell
@@ -15,6 +14,8 @@ $newOU = "elever"
 $parentOU = "kuben"
 $csvPath = "C:\Path\to\eksempel_brukere.csv"
 ```
+<img src='https://i.imgur.com/BQjoaLx.png'>  
+
 ## Server Initial Setup & Role Installation
 ```powershell
 # Install core Windows features
