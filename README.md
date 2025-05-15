@@ -21,16 +21,15 @@ $DCroot = "local"
 ```powershell
 Rename-Computer -NewName $newName -Force -PassThru | Restart-Computer -Force
 ```
+# Configure static IP address
+```powershell
+New-NetIPAddress -InterfaceAlias $interfaceAlias -IPAddress $ip -PrefixLength $prefixlength -DefaultGateway $defaultgw
+```
 
 ## Server Initial Setup & Role Installation
 ```powershell
 # Install core Windows features
 Install-WindowsFeature -Name AD-Domain-Services, DNS, DHCP, Hyper-V, Web-Server -IncludeManagementTools -IncludeAllSubFeatures
-```
-
-# Configure static IP address
-```powershell
-New-NetIPAddress -InterfaceAlias $interfaceAlias -IPAddress $ip -PrefixLength $prefixlength -DefaultGateway $defaultgw
 ```
 
 ## Active Directory & DHCP Configuration
