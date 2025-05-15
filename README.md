@@ -17,6 +17,11 @@ $DCenhet = "osloskolen"
 $DCroot = "local"
 ```
 
+# Rename server
+```powershell
+Rename-Computer -NewName $newName -Force -PassThru | Restart-Computer -Force
+```
+
 ## Server Initial Setup & Role Installation
 ```powershell
 # Install core Windows features
@@ -26,10 +31,6 @@ Install-WindowsFeature -Name AD-Domain-Services, DNS, DHCP, Hyper-V, Web-Server 
 # Configure static IP address
 ```powershell
 New-NetIPAddress -InterfaceAlias $interfaceAlias -IPAddress $ip -PrefixLength $prefixlength -DefaultGateway $defaultgw
-```
-# Rename server
-```powershell
-Rename-Computer -NewName $newName -Force -PassThru | Restart-Computer -Force
 ```
 
 ## Active Directory & DHCP Configuration
