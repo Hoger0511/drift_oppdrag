@@ -1,5 +1,3 @@
-```
-
 ## Windows Server Backup Veiledning
 
 ### Navigering i Windows Server Backup
