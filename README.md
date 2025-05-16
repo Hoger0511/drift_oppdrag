@@ -46,10 +46,8 @@ Install-ADDSForest -DomainName $domainName -InstallDns -Force -SafeModeAdministr
 ```
 ## DHCP Server configuration with Enterprise Admin credential
 ```powershell
-$dhcpCred = Get-Credential -Message "Enter Enterprise Admin credentials"
-Add-DhcpServerInDC -DnsName $env:COMPUTERNAME -IPAddress $ip -EnterpriseAdminCredential $dhcpCred
 Add-DhcpServerv4Scope -Name "StudentNetwork" -StartRange 192.168.17.26 -EndRange 192.168.17.200 -SubnetMask 255.255.255.0 -State Active
-Set-DhcpServerv4OptionValue -DnsServer $ip,"8.8.8.8" -Router $defaultgw -DnsDomain $domainName
+Set-DhcpServerv4OptionValue -DnsServer $ip -Router $defaultgw -DnsDomain $domainName
 Restart-Service dhcpserver
 ```
 
@@ -125,8 +123,6 @@ Fysisk tilkobling: Koble OPNsense til samme nettverk som Windows Server.
 
 IP-adressering: Konfigurer statisk IP for Windows Server innenfor LAN-segmentet.
 
-DNS og routing: Konfigurer DNS og statiske ruter i OPNsense.
-
 Dette oppsettet sikrer et robust og sikkert nettverksmiljø med både Windows Server og OPNsense.
 
 ```
@@ -138,29 +134,25 @@ Dette oppsettet sikrer et robust og sikkert nettverksmiljø med både Windows Se
 - **IP-konflikter:** Sjekk at DHCP-scope ikke overlapper med statiske IP-adresser  
 - **Versjonsavhengighet:** Skriptene er testet på Windows Server 2022 – andre versjoner kan kreve modifikasjoner  
 - **Backup:** Ta full backup av OPNsense-konfigurasjon og Active Directory før endringer
+- **Dokumentasjon** Dokumenter alt sammen, passord, bruker navn og ip addresser.
 
 
 ## 🔒 Security Notes  
 **Kritiske sikkerhetstiltak for OPNsense + Windows Server:**  
-1. **Brannmurregler:**  
-   - Tillat **kun** nødvendige porter (f.eks. RDP:3389, DNS:53)  
-   - Blokker ICMP-ping fra WAN-grensesnittet  
-   - Implementer "Default Deny"-policy for innkommende trafikk  
 
-2. **Active Directory:**  
+1. **Active Directory:**  
    - Bruk **Least Privilege**-prinsippet for AD-brukere  
    - Implementer **Account Lockout Policy** mot brute force-angrep
   
-3. **OPNsense Best Practices:**
-
+2. **OPNsense Best Practices:**
  - Deaktiver ubrukte tjenester
  - Blokker private nettverk på WAN-grensesnittet
    
-4. **Automatiske oppdateringer:**  
+3. **Automatiske oppdateringer:**  
 - Konfigurer **Auto-update** for OPNsense (`System → Firmware → Settings`)  
 - Aktiver **Windows Update** for serveren via Group Policy  
 
-5. **Logging og overvåkning:**  
+4. **Logging og overvåkning:**  
 - Konfigurer **Windows Event Log**-overvåkning for AD-endringer
 
 **⚠️ Disclaimer:**  
