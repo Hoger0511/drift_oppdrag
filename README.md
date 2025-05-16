@@ -1,27 +1,34 @@
 # Windows Server Configuration Scripts
-# All values are parameterized with variables
+## All values are parameterized with variables, 
 
 
-## Configuration Variables 
+### Configuration Variables 
 ```powershell
-$newName = "Kuben"
-$interfaceAlias = "Ethernet"
-$ip = "192.168.17.10"
-$prefixlength = 24
-$defaultgw = "192.168.17.1"
-$domainName = "osloskolen.local"  # osloskolen.local
-$newOU = "elever"
-$parentOU = "kuben"
-$csvPath = "C:\Path\to\eksempel_brukere.csv"
-$DCenhet = "osloskolen"
-$DCroot = "local"
+# --- System Configuration ---
+$newName = "Kuben"                     
+$interfaceAlias = "Ethernet" 
+
+# --- IP Configuration ---
+$ip = "192.168.17.10"                  
+$prefixlength = 24                     
+$defaultgw = "192.168.17.1"            
+
+# --- Domain & Active Directory ---
+$domainName = "osloskolen.local"       # Domenenavn (f.eks. en skole/bedrift)
+$newOU = "elever"                      # Organisasjonsenhet (OU) der brukere/PC-er skal plasseres i AD
+$parentOU = "kuben"                    
+$csvPath = "C:\Users\eksempel_brukere.csv"  # Filsti til en CSV-fil med brukerdata (for bulk-import)
+
+# --- Domain Controller Info ---
+$DCenhet = "osloskolen"                # Første del av domenenavn (osloskolen.local)
+$DCroot = "local"                      # Toppnivådomene (TLD) (osloskolen.local)
 ```
 
-# Rename server
+## Rename server
 ```powershell
 Rename-Computer -NewName $newName -Force -PassThru | Restart-Computer -Force
 ```
-# Configure static IP address
+## Configure static IP address
 ```powershell
 New-NetIPAddress -InterfaceAlias $interfaceAlias -IPAddress $ip -PrefixLength $prefixlength -DefaultGateway $defaultgw
 ```
@@ -32,13 +39,12 @@ New-NetIPAddress -InterfaceAlias $interfaceAlias -IPAddress $ip -PrefixLength $p
 Install-WindowsFeature -Name AD-Domain-Services, DNS, DHCP, Hyper-V, Web-Server -IncludeManagementTools -IncludeAllSubFeatures
 ```
 
-## Active Directory & DHCP Configuration
+# Active Directory & DHCP Configuration
 ```powershell
-# Promote server to Domain Controller with Safe Mode password
-$safeModePwd = ConvertTo-SecureString "P@ssw0rd123!" -AsPlainText -Force
+# Promote server to Domain Controller
 Install-ADDSForest -DomainName $domainName -InstallDns -Force -SafeModeAdministratorPassword $safeModePwd
 ```
-# DHCP Server configuration with Enterprise Admin credential
+## DHCP Server configuration with Enterprise Admin credential
 ```powershell
 $dhcpCred = Get-Credential -Message "Enter Enterprise Admin credentials"
 Add-DhcpServerInDC -DnsName $env:COMPUTERNAME -IPAddress $ip -EnterpriseAdminCredential $dhcpCred
@@ -52,10 +58,6 @@ Restart-Service dhcpserver
 # Create OU structure
 New-ADOrganizationalUnit -Name $parentOU -Path "DC=$DCenhet,DC=$DCroot"
 New-ADOrganizationalUnit -Name $newOU -Path "OU=$parentOU,DC=$DCenhet,DC=$DCroot"
-```
-# Redirect default containers
-```powershell
-Set-ADDomain -Identity $domainName -DefaultUserContainer "OU=$newOU,OU=$parentOU,DC=$DCenhet,DC=$DCroot"
 ```
 
 ## Add Multiple Accounts from CSV
