@@ -1,7 +1,6 @@
-# (Windows Server) Setup of school system
+# (Windows Server) a project for automating and documenting the setup of an IT infrastructure for a school. 
+
 ## All values are parameterized with variables, 
-
-
 ### Configuration Variables 
 ```powershell
 # --- System Configuration ---
