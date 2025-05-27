@@ -17,6 +17,7 @@ $domainName = "osloskolen.local"       # Domenenavn (f.eks. en skole/bedrift)
 $newOU = "elever"                      # Organisasjonsenhet (OU) der brukere/PC-er skal plasseres i AD
 $parentOU = "kuben"                    
 $csvPath = "C:\Users\eksempel_brukere.csv"  # Filsti til en CSV-fil med brukerdata (for bulk-import)
+$OUPath = "OU=elever,OU=kuben,DC=osloskolen,DC=local"
 
 # --- Domain Controller Info ---
 $DCenhet = "osloskolen"                # Første del av domenenavn (osloskolen.local)
