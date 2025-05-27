@@ -1,4 +1,4 @@
-# Windows Server Configuration Scripts
+# (Windows Server) Setup of school system
 ## All values are parameterized with variables, 
 
 
