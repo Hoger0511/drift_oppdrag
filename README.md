@@ -91,16 +91,35 @@ New-ADUser -Name "Test User" -SamAccountName "test.user" `
 $firstName = Read-Host "Enter user's first name"
 $lastName = Read-Host "Enter user's last name"
 $username = Read-Host "Enter username"
-$password = Read-Host "Enter temporary password" -AsSecureString
 
-New-ADUser -Name "$firstName $lastName" `
-           -GivenName $firstName `
-           -Surname $lastName `
-           -SamAccountName $username `
-           -UserPrincipalName "$username@$domainName" `
-           -AccountPassword $password `
-           -Path "OU=$newOU,OU=$parentOU,DC=$DCenhet,DC=$DCroot" `
-           -Enabled $true
+$userCreatedSuccessfully = $false
+
+while (-not $userCreatedSuccessfully) {
+    try {
+        $password = Read-Host "Enter password" -AsSecureString
+        
+        New-ADUser -Name "$firstName $lastName" `
+                   -GivenName $firstName `
+                   -Surname $lastName `
+                   -SamAccountName $username `
+                   -UserPrincipalName "$username@$domainName" `
+                   -AccountPassword $password `
+                   -Path "OU=$newOU,OU=$parentOU,DC=$DCenhet,DC=$DCroot" `
+                   -Enabled $true `
+                   -ErrorAction Stop
+
+        Write-Host "User '$username' created successfully."
+        $userCreatedSuccessfully = $true
+    }
+    catch {
+        if ($_.Exception.Message -like "*password*" -or $_.Exception.Message -like "*policy*" -or $_.Exception.Message -like "*policy requirements*") {
+            Write-Warning "Bad password, try another one. Error: $($_.Exception.Message)"
+        }
+        else {
+            Write-Warning "An error occurred: $($_.Exception.Message). Please try entering the password again."
+        }
+    }
+}
 ```
 ## OPNsense brannmur-oppsett
 Installasjon
