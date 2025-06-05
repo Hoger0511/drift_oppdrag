@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Osloskolen.Local</title>
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="iis.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" /> 
+</head>
+<body>
+
+    <div class="topnav" id="myTopnav">
+        <a href="hjem.html">Hjem</a>
+        <a href="brukermanual.html">Brukermanual</a>
+        <a href="kontakt.html" class="active">Kontakt</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <span class="material-symbols-outlined">
+                lunch_dining
+            </span>
+        </a>
+      </div>
+      <div>
+         <section class="main">
+        <h1>Kontakt</h1>
+        <form onsubmit="return false">
+            <div class="felt">
+                <label for="navn" class="label">Navn: </label>
+                <input type="text" id="navn" name="navn" class="input">
+            </div>
+            <div class="felt">
+                <label for="epost" class="label" width="500" height="100">E-postadresse: </label>
+                <input type="email" id="epost" name="epost" class="input" required>
+            </div>
+            <div class="felt">
+                <label for="melding" class="label" width="500" height="100">Melding: </label>
+                <textarea id="melding" name="melding" class="input" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="submit" width="500" height="100">Send</button>
+        </form>
+    </section>
+      </div>
+    <header>
+        <h1>Informasjon fra IT</h1>
+    </header>
+    <section class="main">
+        <h1></h1>
+    <footer>
+        Copyright &copy; 2024 Osloskolen.Local
+    </footer>
+    <script src="nav.js"></script>
+</body>
+</html>
